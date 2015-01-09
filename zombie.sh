@@ -6,6 +6,8 @@
 echo "Please enter the name of the process to be monitored:"
 read process #variable that contains the name of the process
 
+logfile="zombie_$process.log" #Name of the logfile
+
 c_p=`ps aux | grep $process | wc -l` #partial counter of process
 let "c_process = 0" #counter of number of 'process'
 
@@ -32,6 +34,7 @@ do
 	if [ $difference -gt 0 ]; then
 		#I'll count if difference is more than 0. count real number of zombie.
 		zombie=`expr $zombie + 1`
+		echo "zombie!" > $logfile 
 		echo "zombie!"
 	fi
 
@@ -39,4 +42,5 @@ do
 	c_past=$c_now
 done
 
+echo "$process has created: $zombie Zombies" >> $logfile
 echo "$process has created: $zombie Zombies"
